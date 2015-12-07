@@ -13,7 +13,7 @@ import java.util.jar.JarFile;
 /**
  */
 public class PluginFactory {
-
+    //comment
     //The heavy-lifting. A class recebe uma string com o nome do ficheiro/classe
     @SuppressWarnings("Duplicates")
     static void loadClass(File filestream) throws IOException {
