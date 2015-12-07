@@ -77,9 +77,25 @@ public class Main {
                     }
                 }
                 */
+
+                /*
+                Vou buscar o constructor da class porque não tinha definido
+                o constructor default. Caso houvesse constructor default
+                (explícito ou por omissão), bastava fazer "c.newInstance();"
+                 */
                 Constructor cR = c.getConstructor(String.class);
+                /*
+                Constructor receives a single string argument, given on creation of new instance
+                Class instance is kept in "Object instance" var
+                 */
                 Object instance = cR.newInstance("This text please");
+                //instance is typecasted into runnable. Works because class implements Runnable, ofc
                 Runnable r = (Runnable) instance;
+                //Search for Method "say" in class c and keep in object
+                Method m = c.getMethod("say");
+                //invoke method m on class instance "instance"
+                m.invoke(instance);
+                //Since r is runnable, create thread
                 Thread t = new Thread(r);
                 t.start();
                 //Method m = c.getMethod("sayThis", String.class);

@@ -1,4 +1,5 @@
 package CustomWorld;
+import HelloWorld.HelloWorld;
 
 /**
  * Integração de Sistemas
@@ -12,7 +13,9 @@ public class CustomWorld implements Runnable{
     }
 
     public void say(){
-        System.out.println(this.customText);
+        //System.out.println(this.customText);
+        HelloWorld hello = new HelloWorld();
+        hello.sayHi();
     }
 
     public void sayCustom(String text){
