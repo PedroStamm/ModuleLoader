@@ -30,20 +30,32 @@ public class Main {
     static void loadClass(File filestream) throws IOException {
         //Caminho para o jar, por defeito procura uma pasta /jars
         //String pathToJar = "jars/"+filename+".jar";
+        String className;
         JarFile jarFile = new JarFile(filestream);
         Enumeration e = jarFile.entries();
         URL[] urls = { filestream.toURI().toURL() };
         URLClassLoader cl = URLClassLoader.newInstance(urls);
-
+        //MANIGEST HERE
+        //Get the Manifest from the JAR file and get attributes
+        Manifest man = jarFile.getManifest();
+        Attributes a = man.getMainAttributes();
+        //Get class name from key Server-Class
+        className = a.getValue("Server-Class");
+        System.out.println("Server class is "+className);
         while (e.hasMoreElements()) {
             JarEntry je = (JarEntry) e.nextElement();
             System.out.println("Found entry in jar file called "+je.getName());
-            if(je.isDirectory() || !je.getName().endsWith(".class")){
+            if(je.isDirectory() || !je.getName().endsWith(".class") || !je.getName().replace('/','.').contains(className)){
+                System.out.println(je.getName()+" is not the class we're looking for");
                 continue;
             }
+            System.out.println("FOUND "+je.getName());
             // -6 because of .class
-            String className = je.getName().substring(0,je.getName().length()-6);
-            className = className.replace('/', '.');
+
+            //Commented due to getting classname from manifest, no longer need to rely on filename
+            /*String className = je.getName().substring(0,je.getName().length()-6);
+            className = className.replace('/', '.');*/
+
             try {/*
                 //Get manifest file from jar
                 Manifest man = jarFile.getManifest();
@@ -53,6 +65,9 @@ public class Main {
                 System.out.println("From Attribute: "+a.getValue("Main-Class"));
                 */
                 Class c = cl.loadClass(className);
+
+                //List ALL methods for class c
+                /*
                 Method[] ml = c.getMethods();
                 for(Method mi : ml) {
                     System.out.println(mi);
@@ -61,6 +76,7 @@ public class Main {
                         System.out.println(c.getCanonicalName());
                     }
                 }
+                */
                 Constructor cR = c.getConstructor(String.class);
                 Object instance = cR.newInstance("This text please");
                 Runnable r = (Runnable) instance;
