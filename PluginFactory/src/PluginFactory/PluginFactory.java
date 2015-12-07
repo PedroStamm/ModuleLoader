@@ -16,19 +16,8 @@ import Plugin.Plugin;
 
 /**
  */
-public class PluginFactory {
+public abstract class PluginFactory {
     //comment
     //The heavy-lifting. A class recebe uma string com o nome do ficheiro/classe
-    @SuppressWarnings("Duplicates")
-        static Plugin loadClass(File filestream) throws IOException {
-        JarFile jarFile = new JarFile(filestream);
-        Enumeration e = jarFile.entries();
-        URL[] urls = { filestream.toURI().toURL() };
-        URLClassLoader cl = URLClassLoader.newInstance(urls);
-
-        Manifest man = jarFile.getManifest();
-        Attributes a = man.getMainAttributes();
-        Plugin p = new Plugin();
-        Plugin.
-    }
+        abstract Plugin loadClass(File filestream) throws IOException ;
 }

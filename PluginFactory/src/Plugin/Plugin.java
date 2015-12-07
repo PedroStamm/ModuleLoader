@@ -5,26 +5,9 @@ package Plugin;
  * Pedro Filipe Dinis Stamm de Matos, 2009116927
  */
 public class Plugin {
-    private String serverClass;
-    private String botClass;
+    private String className;
     private String command;
     private Class classRef;
-
-    public String getServerClass() {
-        return serverClass;
-    }
-
-    public void setServerClass(String serverClass) {
-        this.serverClass = serverClass;
-    }
-
-    public String getBotClass() {
-        return botClass;
-    }
-
-    public void setBotClass(String botClass) {
-        this.botClass = botClass;
-    }
 
     public String getCommand() {
         return command;
@@ -40,5 +23,13 @@ public class Plugin {
 
     public void setClassRef(Class classRef) {
         this.classRef = classRef;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
     }
 }
