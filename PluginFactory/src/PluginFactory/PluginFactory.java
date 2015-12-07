@@ -2,6 +2,7 @@ package PluginFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -34,13 +35,13 @@ public class PluginFactory {
             String className = je.getName().substring(0,je.getName().length()-6);
             className = className.replace('/', '.');
             try {/*
-                //Get manifest file from jar
-                Manifest man = jarFile.getManifest();
-                //Get attributes from jar
-                Attributes a = man.getMainAttributes();
-                //Find value of Main-Class attribute
-                System.out.println("From Attribute: "+a.getValue("Main-Class"));
-                */
+            //Get manifest file from jar
+            Manifest man = jarFile.getManifest();
+            //Get attributes from jar
+            Attributes a = man.getMainAttributes();
+            //Find value of Main-Class attribute
+            System.out.println("From Attribute: "+a.getValue("Main-Class"));
+            */
                 Class c = cl.loadClass(className);
                 Method[] ml = c.getMethods();
                 for(Method mi : ml) {
@@ -50,8 +51,13 @@ public class PluginFactory {
                         System.out.println(c.getCanonicalName());
                     }
                 }
-                Method m = c.getMethod("sayThis", String.class);
-                m.invoke(c.newInstance(), "Say this bloody text");
+                Constructor cR = c.getConstructor(String.class);
+                Object instance = cR.newInstance("This text please");
+                Runnable r = (Runnable) instance;
+                Thread t = new Thread(r);
+                t.start();
+                //Method m = c.getMethod("sayThis", String.class);
+                //m.invoke(instance, "Say this bloody text");
             } catch (ClassNotFoundException e1) {
                 e1.printStackTrace();
             } catch (NoSuchMethodException e1) {
